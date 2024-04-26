@@ -27,23 +27,23 @@
  leds {
         compatible = "gpio-leds";
 
-      status {
-			label = "status";
+      sys {
+			label = "power";
 			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
 		};
 		
       wifi2g {
-			label = "wifi2g";
+			label = "sw2g";
 			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
 					};
 
 	   wifi5g {
-			label = "wifi5g";
+			label = "sw5g";
 			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 				 	};
 		
 	   wwan0 {
-			label = "wwan0";
+			label = "usb";
 			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
 					};
   
