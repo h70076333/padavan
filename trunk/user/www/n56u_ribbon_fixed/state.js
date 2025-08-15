@@ -418,11 +418,14 @@ if (found_app_aliddns()||found_app_zerotier()||found_app_ddnsto()||found_app_wir
 if (found_app_aldriver()){
 	tabtitle[17] = new Array("", "<#menu5_36#>");
 }
-if (found_app_sqm()){
-	tabtitle[18] = new Array("", "<#menu5_37#>");
+if (found_app_hxcli()){
+	tabtitle[18] = new Array("", "宏兴智能组网");
 }
-if (found_app_frp()){
-	tabtitle[19] = new Array("", "<#menu5_25#>");
+if (found_app_nelink()){
+	tabtitle[19] = new Array("", "NE异地组网");
+}
+if (found_app_etink()){
+	tabtitle[20] = new Array("", "ET WEB组网");
 }
 
 //Level 3 Tab title
@@ -468,7 +471,7 @@ if (found_app_aliddns()){
 	aliddns_array = new Array("","Advanced_aliddns.asp");
 	tablink[16] = (aliddns_array);
 }else if (found_app_zerotier()){
-	zerotier_array = new Array("","Advanced_zerotier.asp");
+	zerotier_array = new Array("","Advanced_vpnkey.asp");
 	tablink[16] = (zerotier_array);
 }else if (found_app_ddnsto()){
 	ddnsto_array = new Array("","Advanced_ddnsto.asp");
@@ -481,15 +484,17 @@ if (found_app_aldriver()){
 	aldriver_arry = new Array("","Advanced_aliyundrive.asp");
 	tablink[17] = (aldriver_arry);
 }
-if (found_app_sqm()){
-	sqm_array = new Array("","Advanced_SQM.asp");
-	tablink[18] = (sqm_array);
+if (found_app_hxcli()){
+	hxcli_array = new Array("","Advanced_hxzn.asp");
+	tablink[18] = (hxcli_array);
 }
-if (found_app_frp()){
-	frp_array = new Array("","Advanced_frp.asp");
-	tablink[19] = (frp_array);
-	tabtitle[9].push('<#menu5_25_1#>');
-	tablink[9].push('Advanced_frp_log.asp');
+if (found_app_nelink()){
+	nelink_array = new Array("","Advanced_nelink.asp");
+	tablink[19] = (nelink_array);
+}
+if (found_app_etink()){
+	etink_array = new Array("","Advanced_etink.asp");
+	tablink[20] = (etink_array);
 }
 
 //Level 2 Menu
@@ -527,12 +532,16 @@ if (found_app_aldriver()){
 	menuL2_title.push("<#menu5_36#>");
 } else menuL2_title.push("");
 
-if (found_app_sqm()){
-	menuL2_title.push("<#menu5_37#>");
+if (found_app_hxcli()){
+	menuL2_title.push("宏兴智能组网");
 } else menuL2_title.push("");
 
-if (found_app_frp()){
-	menuL2_title.push("<#menu5_25#>");
+if (found_app_nelink()){
+	menuL2_title.push("NE异地组网");
+} else menuL2_title.push("");
+
+if (found_app_etink()){
+	menuL2_title.push("ET WEB组网");
 } else menuL2_title.push("");
 
 menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], support_2g_radio() ? tablink[8][1] : "Main_EStatus_Content.asp", tablink[9][1]);
@@ -576,12 +585,16 @@ if (found_app_aldriver()){
 	menuL2_link.push(aldriver_arry[1]);
 } else menuL2_link.push("");
 
-if (found_app_sqm()){
-	menuL2_link.push(sqm_array[1]);
+if (found_app_hxcli()){
+	menuL2_link.push(hxcli_array[1]);
 } else menuL2_link.push("");
 
-if (found_app_frp()){
-	menuL2_link.push(frp_array[1]);
+if (found_app_nelink()){
+	menuL2_link.push(nelink_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_etink()){
+	menuL2_link.push(etink_array[1]);
 } else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
