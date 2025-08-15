@@ -169,7 +169,7 @@ ifneq ($(CONFIG_FIRMWARE_INCLUDE_ALIDDNS),y)
 	rm -f $(INSTALLDIR)/www/Advanced_aliddns.asp
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_ZEROTIER),y)
-	rm -f $(INSTALLDIR)/www/Advanced_zerotier.asp
+	rm -f $(INSTALLDIR)/www/Advanced_vpnkey.asp
 endif
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_FRPC)_$(CONFIG_FIRMWARE_INCLUDE_FRPS), n_n)
 	rm -f $(INSTALLDIR)/www/Advanced_frp.asp
@@ -177,6 +177,15 @@ ifeq ($(CONFIG_FIRMWARE_INCLUDE_FRPC)_$(CONFIG_FIRMWARE_INCLUDE_FRPS), n_n)
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_DDNSTO),y)
 	rm -f $(INSTALLDIR)/www/Advanced_ddnsto.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_HXCLI),y)
+	rm -f $(INSTALLDIR)/www/Advanced_hxzn.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_NELINK),y)
+	rm -f $(INSTALLDIR)/www/Advanced_nelink.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_ETINK),y)
+	rm -f $(INSTALLDIR)/www/Advanced_etink.asp
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_WIREGUARD),y)
 	rm -f $(INSTALLDIR)/www/Advanced_wireguard.asp
