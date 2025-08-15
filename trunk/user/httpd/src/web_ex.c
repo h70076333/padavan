@@ -4375,12 +4375,6 @@ struct mime_handler mime_handlers[] = {
 #if defined(APP_HXCLI)
 	{ "hx-cli.log", "application/force-download", hxcli_log_txt, NULL, do_hxcli_log_file, 1 },
 #endif
-#if defined(APP_NELINK)
-	{ "nelink.log", "application/force-download", nelink_log_txt, NULL, do_nelink_log_file, 1 },
-#endif
-#if defined(APP_ETINK)
-	{ "etink.log", "application/force-download", etink_log_txt, NULL, do_etink_log_file, 1 },
-#endif
 #if defined(APP_OPENVPN)
 	{ "client.ovpn", "application/force-download", NULL, NULL, do_export_ovpn_client, 1 },
 #endif
