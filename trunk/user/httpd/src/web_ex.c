@@ -4310,7 +4310,6 @@ static char mentohust_log_txt[] =
 
 #endif
 
-#endif
 #if defined (APP_HXCLI)
 static void
 do_hxcli_log_file(const char *url, FILE *stream)
@@ -4322,36 +4321,6 @@ do_hxcli_log_file(const char *url, FILE *stream)
 static char hxcli_log_txt[] =
 "Content-Disposition: attachment;\r\n"
 "filename=hx-cli.log"
-;
-
-#endif
-
-#if defined (APP_NELINK)
-static void
-do_nelink_log_file(const char *url, FILE *stream)
-{
-	dump_file(stream, "/tmp/nelink.log");
-	fputs("\r\n", stream);
-}
-
-static char nelink_log_txt[] =
-"Content-Disposition: attachment;\r\n"
-"filename=nelink.log"
-;
-
-#endif
-
-#if defined (APP_ETINK)
-static void
-do_etink_log_file(const char *url, FILE *stream)
-{
-	dump_file(stream, "/tmp/etink.log");
-	fputs("\r\n", stream);
-}
-
-static char etink_log_txt[] =
-"Content-Disposition: attachment;\r\n"
-"filename=etink.log"
 ;
 
 #endif
