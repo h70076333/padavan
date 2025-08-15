@@ -2314,7 +2314,6 @@ static int sqm_status_hook(int eid, webs_t wp, int argc, char **argv)
 }
 #endif
 
-
 #if defined (APP_HXCLI)
 static int hxcli_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
@@ -3642,20 +3641,6 @@ apply_cgi(const char *url, webs_t wp)
 		if (commit_all || strcmp(action_id, "commit_storage") == 0)
 			sys_result |= doSystem("/sbin/mtd_storage.sh %s", "save");
 		websWrite(wp, "{\"sys_result\": %d}", sys_result);
-		return 0;
-	}
-	else if (!strcmp(value, " Restartnelink "))
-	{
-#if defined(APP_NELINK)
-		system("/usr/bin/ne.sh restart &");
-#endif
-		return 0;
-	}
-	else if (!strcmp(value, " Restartetink "))
-	{
-#if defined(APP_ETINK)
-		system("/usr/bin/et.sh restart &");
-#endif
 		return 0;
 	}
 	else if (!strcmp(value, " Restarthxcli "))
