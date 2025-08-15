@@ -824,6 +824,58 @@ struct nvram_pair router_defaults[] = {
 	{ "zero_staticnum_x", "0" },
 #endif
 
+#if defined(APP_HXCLI)
+	/*hxcli*/
+	{ "hxcli_enable", "0" },
+	{ "hxcli_token", "" },
+	{ "hxcli_ip", "" },
+	{ "hxcli_localadd", "" },
+	{ "hxcli_serip", "" },
+	{ "hxcli_model", "0" },
+	{ "hxcli_key", "" },
+	{ "hxcli_log", "0" },
+	{ "hxcli_proxy", "0" },
+	{ "hxcli_first", "0" },
+	{ "hxcli_wg", "0" },
+	{ "hxcli_finger", "0" },
+	{ "hxcli_serverw", "" },
+	{ "hxcli_desname", "" },
+	{ "hxcli_id", "" },
+	{ "hxcli_tunname", "" },
+	{ "hxcli_mtu", "" },
+	{ "hxcli_dns", "" },
+	{ "hxcli_stun", "" },
+	{ "hxcli_port", "" },
+	{ "hxcli_punch", "0" },
+	{ "hxcli_comp", "0" },
+	{ "hxcli_relay", "0" },
+	{ "hxcli_bin", "" },
+	{ "hxcli_wan", "" },
+	{ "hxcli_routenum_x", "0" },
+	{ "hxcli_mappnum_x", "0" },
+#endif
+
+#if defined(APP_NELINK)
+	/*nelink*/
+	{ "nelink_enable", "0" },
+	{ "nelink_keyg", "abc123" },
+	{ "nelink_ip", "20" },
+	{ "nelink_inlan1", "192.168.x.0" },
+	{ "nelink_xuip1", "10.26.2.x" },
+	{ "nelink_log", "" },
+	{ "nelink_log2", "" },
+	{ "nelink_log3", "" },
+#endif
+
+#if defined(APP_ETINK)
+	/*etink*/
+	{ "etink_enable", "0" },
+	{ "etink_keyg", "abc123" },
+	{ "etink_log", "v2.4.1" },
+	{ "etink_log2", "" },
+	{ "etink_log3", "" },
+#endif
+
 #if defined(APP_DDNSTO)
 	/*DDNSTO*/
 	{ "ddnsto_enable", "0" },
