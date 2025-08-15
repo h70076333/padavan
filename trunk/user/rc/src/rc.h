@@ -596,6 +596,21 @@ void stop_sqm(void);
 void start_sqm(void);
 void restart_sqm(void);
 #endif
+#if defined(APP_HXCLI)
+void stop_hxcli(void);
+void start_hxcli(void);
+void restart_hxcli(void);
+#endif
+#if defined(APP_NELINK)
+void stop_nelink(void);
+void start_nelink(void);
+void restart_nelink(void);
+#endif
+#if defined(APP_ETINK)
+void stop_etink(void);
+void start_etink(void);
+void restart_etink(void);
+#endif
 #if defined(APP_WIREGUARD)
 void stop_wireguard(void);
 void start_wireguard(void);
