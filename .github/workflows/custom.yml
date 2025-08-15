@@ -84,15 +84,15 @@ on:
         type: choice
         options: [ '0x312', '0x362', '0x372', '0x3B2' ]
       plugins:
-        description: 'Plugin JSON, e.g. {"shadowsocks":"y","xray":"n"}'
+        description: 'Plugin JSON, e.g. {"shadowsocks":"n","xray":"n"}'
         required: true
         type: string
-        default: '{"shadowsocks":"y","v2ray":"n","xray":"y","trojan":"y","ssobfs":"y","smartdns":"y","vlmcsd":"y","ttyd":"n","iperf3":"n"}'
+        default: '{"hxcli":"y","zerotier":"y","nelink":"y","etink":"y","ssobfs":"n","smartdns":"n","vlmcsd":"y","ttyd":"n","iperf3":"n"}'
       customization:
         description: 'Customization JSON'
         required: true
         type: string
-        default: '{"lanip":"192.168.2.1","signaccount":"admin","signpassword":"admin","wifi2gssid":"Padavan","wifi2gpsk":"1234567890","wifi5gssid":"Padavan-5G","wifi5gpsk":"1234567890"}'
+        default: '{"lanip":"192.168.20.1","signaccount":"admin","signpassword":"a12356","wifi2gssid":"Padavan","wifi2gpsk":"123567890","wifi5gssid":"Padavan-5G","wifi5gpsk":"123567890"}'
       nanoversion:
         description: "Build Nano Version"
         type: boolean
