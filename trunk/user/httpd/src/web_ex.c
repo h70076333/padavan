@@ -2314,6 +2314,34 @@ static int sqm_status_hook(int eid, webs_t wp, int argc, char **argv)
 }
 #endif
 
+
+#if defined (APP_HXCLI)
+static int hxcli_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int hxcli_status_code = pids("hx-cli");
+	websWrite(wp, "function hxcli_status() { return %d;}\n", hxcli_status_code);
+	return 0;
+}
+#endif
+
+#if defined (APP_NELINK)
+static int nelink_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int nelink_status_code = pids("nelink");
+	websWrite(wp, "function nelink_status() { return %d;}\n", nelink_status_code);
+	return 0;
+}
+#endif
+
+#if defined (APP_ETINK)
+static int etink_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int etink_status_code = pids("etink");
+	websWrite(wp, "function etink_status() { return %d;}\n", etink_status_code);
+	return 0;
+}
+#endif
+
 #if defined (APP_ALDRIVER)
 static int aliyundrive_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
@@ -2566,6 +2594,21 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 #else
 	int found_app_aldriver = 0;
 #endif
+#if defined(APP_HXCLI)
+	int found_app_hxcli = 1;
+#else
+	int found_app_hxcli = 0;
+#endif
+#if defined(APP_NELINK)
+	int found_app_nelink = 1;
+#else
+	int found_app_nelink = 0;
+#endif
+#if defined(APP_ETINK)
+	int found_app_etink = 1;
+#else
+	int found_app_etink = 0;
+#endif
 #if defined(APP_SQM)
 	int found_app_sqm = 1;
 #else
@@ -2785,6 +2828,9 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function found_app_mentohust() { return %d;}\n"
 		"function found_app_adbyby() { return %d;}\n"
 		"function found_app_zerotier() { return %d;}\n"
+		"function found_app_hxcli() { return %d;}\n"
+		"function found_app_nelink() { return %d;}\n"
+		"function found_app_etink() { return %d;}\n"
 		"function found_app_ddnsto() { return %d;}\n"
 		"function found_app_aldriver() { return %d;}\n"
 		"function found_app_aliddns() { return %d;}\n"
@@ -2822,6 +2868,9 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		found_app_ddnsto,
 		found_app_aldriver,
 		found_app_aliddns,
+		found_app_hxcli,
+		found_app_nelink,
+		found_app_etink,
 		found_app_frp,
 		found_app_vpnsvr,
 		found_app_vpncli,
@@ -3595,6 +3644,77 @@ apply_cgi(const char *url, webs_t wp)
 		websWrite(wp, "{\"sys_result\": %d}", sys_result);
 		return 0;
 	}
+	else if (!strcmp(value, " Restartnelink "))
+	{
+#if defined(APP_NELINK)
+		system("/usr/bin/ne.sh restart &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " Restartetink "))
+	{
+#if defined(APP_ETINK)
+		system("/usr/bin/et.sh restart &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " Restarthxcli "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh restart &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " Updatehxcli "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh update &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " CMDhxinfo "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh hxinfo &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " CMDhxall "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh hxall &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " CMDhxlist "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh hxlist &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " CMDhxroute "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh hxroute &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " CMDhxstatus "))
+	{
+#if defined(APP_HXCLI)
+		system("/usr/bin/hxzn.sh hxstatus &");
+#endif
+		return 0;
+	}
+	else if (!strcmp(value, " ClearhxcliLog "))
+	{
+#if defined(APP_HXCLI)
+		unlink("/tmp/hx-cli.log");
+#endif
+		websRedirect(wp, current_url);
+		return 0;
+	}
 	else if (!strcmp(value, " ExportConfOVPNC "))
 	{
 		int sys_result = 1;
@@ -4205,6 +4325,52 @@ static char mentohust_log_txt[] =
 
 #endif
 
+#endif
+#if defined (APP_HXCLI)
+static void
+do_hxcli_log_file(const char *url, FILE *stream)
+{
+	dump_file(stream, "/tmp/hx-cli.log");
+	fputs("\r\n", stream);
+}
+
+static char hxcli_log_txt[] =
+"Content-Disposition: attachment;\r\n"
+"filename=hx-cli.log"
+;
+
+#endif
+
+#if defined (APP_NELINK)
+static void
+do_nelink_log_file(const char *url, FILE *stream)
+{
+	dump_file(stream, "/tmp/nelink.log");
+	fputs("\r\n", stream);
+}
+
+static char nelink_log_txt[] =
+"Content-Disposition: attachment;\r\n"
+"filename=nelink.log"
+;
+
+#endif
+
+#if defined (APP_ETINK)
+static void
+do_etink_log_file(const char *url, FILE *stream)
+{
+	dump_file(stream, "/tmp/etink.log");
+	fputs("\r\n", stream);
+}
+
+static char etink_log_txt[] =
+"Content-Disposition: attachment;\r\n"
+"filename=etink.log"
+;
+
+#endif
+
 struct mime_handler mime_handlers[] = {
 	/* cached javascript files w/o translations */
 	{ "jquery.js", "text/javascript", NULL, NULL, do_file, 0 }, // 2012.06 Eagle23
@@ -4251,6 +4417,15 @@ struct mime_handler mime_handlers[] = {
 #endif
 #if defined(APP_MENTOHUST)
 	{ "mentohust.log", "application/force-download", mentohust_log_txt, NULL, do_mentohust_log_file, 1 },
+#endif
+#if defined(APP_HXCLI)
+	{ "hx-cli.log", "application/force-download", hxcli_log_txt, NULL, do_hxcli_log_file, 1 },
+#endif
+#if defined(APP_NELINK)
+	{ "nelink.log", "application/force-download", nelink_log_txt, NULL, do_nelink_log_file, 1 },
+#endif
+#if defined(APP_ETINK)
+	{ "etink.log", "application/force-download", etink_log_txt, NULL, do_etink_log_file, 1 },
 #endif
 #if defined(APP_OPENVPN)
 	{ "client.ovpn", "application/force-download", NULL, NULL, do_export_ovpn_client, 1 },
@@ -4570,6 +4745,15 @@ struct ej_handler ej_handlers[] =
 #endif
 #if defined (APP_ALDRIVER)
 	{ "aliyundrive_status", aliyundrive_status_hook},
+#endif
+#if defined (APP_HXCLI)
+	{ "hxcli_status", hxcli_status_hook},
+#endif
+#if defined (APP_NELINK)
+	{ "nelink_status", nelink_status_hook},
+#endif
+#if defined (APP_ETINK)
+	{ "etink_status", etink_status_hook},
 #endif
 #if defined (APP_SQM)
 	{ "sqm_status", sqm_status_hook},
