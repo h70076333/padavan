@@ -456,6 +456,57 @@ void restart_ddnsto(void){
 }
 #endif
 
+#if defined(APP_HXCLI)
+void stop_hxcli(void){
+	eval("/usr/bin/hx.sh","stop");
+}
+
+void start_hxcli(void){
+	int hxcli_enable = nvram_get_int("hxcli_enable");
+	if ( hxcli_enable == 1)
+		eval("/usr/bin/hx.sh","start");
+}
+
+void restart_hxcli(void){
+	stop_hxcli();
+	start_hxcli();
+}
+#endif
+
+#if defined(APP_NELINK)
+void stop_nelink(void){
+	eval("/usr/bin/ne.sh","stop");
+}
+
+void start_nelink(void){
+	int nelink_enable = nvram_get_int("nelink_enable");
+	if ( nelink_enable == 1)
+		eval("/usr/bin/ne.sh","start");
+}
+
+void restart_nelink(void){
+	stop_nelink();
+	start_nelink();
+}
+#endif
+
+#if defined(APP_ETINK)
+void stop_etink(void){
+	eval("/usr/bin/et.sh","stop");
+}
+
+void start_etink(void){
+	int etink_enable = nvram_get_int("etink_enable");
+	if ( etink_enable == 1)
+		eval("/usr/bin/et.sh","start");
+}
+
+void restart_etink(void){
+	stop_etink();
+	start_etink();
+}
+#endif
+
 #if defined(APP_SQM)
 void stop_sqm(void){
 	eval("/usr/lib/sqm/run.sh","stop");
@@ -860,6 +911,15 @@ stop_services(int stopall)
 #if defined(APP_ALDRIVER)
 	stop_aldriver();
 #endif
+#if defined(APP_HXCLI)
+	stop_hxcli();
+#endif
+#if defined(APP_NELINK)
+	stop_nelink();
+#endif
+#if defined(APP_ETINK)
+	stop_etink();
+#endif	
 #if defined(APP_WIREGUARD)
 	stop_wireguard();
 #endif
