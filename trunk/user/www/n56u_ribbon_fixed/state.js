@@ -3,7 +3,6 @@ var wan_route_x = '<% nvram_get_x("", "wan_route_x"); %>';
 var wan_proto = '<% nvram_get_x("", "wan_proto"); %>';
 var lan_proto = '<% nvram_get_x("", "lan_proto_x"); %>';
 var log_float = '<% nvram_get_x("", "log_float_ui"); %>';
-var reboot_schedule_support = '<% nvram_get_x("", "reboot_schedule_enable"); %>';
 var log_stamp = 0;
 var sysinfo = <% json_system_status(); %>;
 var uptimeStr = "<% uptime(); %>";
@@ -12,7 +11,7 @@ var newformat_systime = uptimeStr.substring(8,11) + " " + uptimeStr.substring(5,
 var systime_millsec = Date.parse(newformat_systime); // millsec from system
 var JS_timeObj = new Date(); // 1970.1.1
 var cookie_pref = 'n56u_cookie_';
-var ss_schedule_support = '<% nvram_get_x("", "ss_schedule_enable"); %>';
+
 var uagent = navigator.userAgent.toLowerCase();
 var is_ie11p = (/trident\/7\./).test(uagent);
 var is_mobile = (/iphone|ipod|ipad|iemobile|android|blackberry|fennec/).test(uagent);
@@ -225,6 +224,7 @@ var enabled2Gclass = '<% nvram_match_x("","rt_radio_x", "1", "btn-info"); %>';
 var enabled5Gclass = '<% nvram_match_x("","wl_radio_x", "1", "btn-info"); %>';
 var enabledGuest2Gclass = '<% nvram_match_x("","rt_guest_enable", "1", "btn-info"); %>';
 var enabledGuest5Gclass = '<% nvram_match_x("","wl_guest_enable", "1", "btn-info"); %>';
+var enabledBtnCommit = '<% nvram_match_x("","nvram_manual", "0", "display:none;"); %>';
 
 // L3 = The third Level of Menu
 function show_banner(L3){
@@ -235,13 +235,9 @@ function show_banner(L3){
 		style_2g = 'width:114px;';
 		style_5g = 'width:21px;display:none;';
 	}
-	var title_2g = '"2.4GHz"'
+	var title_2g = '"2.4G"'
 	if (!support_2g_radio()) {
 		title_2g = '"N/A" disabled';
-	}
-	var title_5g = '"5GHz"'
-	if (!support_5g_radio()) {
-		title_5g = '"N/A" disabled';
 	}
 
 	// log panel
@@ -351,19 +347,19 @@ function show_banner(L3){
 	bc += '<table class="table table-condensed" style="margin-bottom: 0px">\n';
 	bc += '  <tr>\n';
 	bc += '    <td width="50%" style="border: 0 none;"><#menu5_1#>:</td>\n';
-	bc += '    <td style="border: 0 none; min-width: 115px;"><div class="form-inline"><input type="button" id="wifi2_b" class="btn btn-mini '+enabled2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_setting(2);">&nbsp;<input type="button" id="wifi5_b" style="'+style_5g+'" class="btn btn-mini '+enabled5Gclass+'" value='+title_5g+' onclick="go_setting(5);"></div></td>\n';
+	bc += '    <td style="border: 0 none; min-width: 115px;"><div class="form-inline"><input type="button" id="wifi2_b" class="btn btn-mini '+enabled2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_setting(2);">&nbsp;<input type="button" id="wifi5_b" style="'+style_5g+'" class="btn btn-mini '+enabled5Gclass+'" value="5G" onclick="go_setting(5);"></div></td>\n';
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
 	bc += '    <td><#menu5_1_2#>:</td>\n';
-	bc += '    <td><div class="form-inline"><input type="button" id="wifi2_b_g" class="btn btn-mini '+enabledGuest2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_wguest(2);">&nbsp;<input type="button" id="wifi5_b_g" style="'+style_5g+'" class="btn btn-mini '+enabledGuest5Gclass+'" value='+title_5g+' onclick="go_wguest(5);"></div></td>\n';
+	bc += '    <td><div class="form-inline"><input type="button" id="wifi2_b_g" class="btn btn-mini '+enabledGuest2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_wguest(2);">&nbsp;<input type="button" id="wifi5_b_g" style="'+style_5g+'" class="btn btn-mini '+enabledGuest5Gclass+'" value="5G" onclick="go_wguest(5);"></div></td>\n';
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
 	bc += '    <td><#General_x_FirmwareVersion_itemname#></td>\n';
 	bc += '    <td><a href="/Advanced_FirmwareUpgrade_Content.asp"><span id="firmver" class="time"></span></a></td>\n';
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
-	bc += '    <td><input type="button" class="btn btn-info" value=<#CTL_refresh#> onClick="parent.location.reload();"> <input type="button" class="btn btn-primary" value="<#CTL_apply#>" onclick="applyRule();"></td>\n';
-	bc += '    <td><button type="button" id="freememory_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_FREEMEMORY#>" onclick="freememory();"><i class="icon icon-trash"></i></button> <button type="button" id="logout_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#t1Logout#>" onclick="logout();"><i class="icon icon-user"></i></button> <button type="button" id="reboto_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_REBOOT#>" onclick="reboot();"><i class="icon icon-repeat"></i></button> <button type="button" id="shutdown_btn" class="btn btn-mini" style="margin-left: 15px; height: 21px; outline:0;" title="<#BTN_SHUTDOWN#>" onclick="shutdown();"><i class="icon icon-off"></i></button></td>\n';
+	bc += '    <td><button type="button" id="commit_btn" class="btn btn-mini" style="width: 114px; height: 21px; outline:0; '+enabledBtnCommit+'" onclick="commit();"><i class="icon icon-fire"></i>&nbsp;<#CTL_Commit#></button></td>\n';
+	bc += '    <td><button type="button" id="logout_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#t1Logout#>" onclick="logout();"><i class="icon icon-user"></i></button> <button type="button" id="reboto_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_REBOOT#>" onclick="reboot();"><i class="icon icon-repeat"></i></button> <button type="button" id="shutdown_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_SHUTDOWN#>" onclick="shutdown();"><i class="icon icon-off"></i></button></td>\n';
 	bc += '  </tr>\n';
 	bc += '</table>\n';
 	bc += '</div>\n';
@@ -381,8 +377,8 @@ function show_banner(L3){
 	show_top_status();
 }
 
-var tabtitle = new Array(20);
-var tablink = new Array(20);
+var tabtitle = new Array(15);
+var tablink = new Array(15);
 tabtitle[0] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[1] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[2] = new Array("", "<#menu5_2_1#>", "<#menu5_2_2#>", "<#menu5_2_3#>", "<#menu5_2_4#>", "<#menu5_2_5#>", "<#menu5_2_6#>");
@@ -405,27 +401,17 @@ if (found_app_shadowsocks()){
 if (found_app_mentohust()){
 	tabtitle[13] = new Array("", "<#menu5_1_1#>","<#menu5_13_log#>");
 }
-if (found_app_adbyby()){
+if (found_app_zerotier()){
 	tabtitle[14] = new Array("", "<#menu5_20_1#>");
 }
-if (found_app_smartdns()||found_app_adguardhome()){
-	tabtitle[15] = new Array("", "<#menu5_29#>");
-}
-
-if (found_app_aliddns()||found_app_zerotier()||found_app_ddnsto()||found_app_wireguard()){
-	tabtitle[16] = new Array("", "<#menu5_30#>");
-}
-if (found_app_aldriver()){
-	tabtitle[17] = new Array("", "<#menu5_36#>");
-}
 if (found_app_hxcli()){
-	tabtitle[18] = new Array("", "宏兴智能组网");
+	tabtitle[15] = new Array("", "<#menu5_20_2#>");
 }
 if (found_app_nelink()){
-	tabtitle[19] = new Array("", "NE异地组网");
+	tabtitle[16] = new Array("", "NE异地组网");
 }
 if (found_app_etink()){
-	tabtitle[20] = new Array("", "ET WEB组网");
+	tabtitle[17] = new Array("", "ET WEB组网");
 }
 
 //Level 3 Tab title
@@ -456,49 +442,25 @@ if (found_app_mentohust()){
 	mentohust_array = new Array("","mentohust.asp","mentohust_log.asp");
 	tablink[13] = (mentohust_array);
 }
-if (found_app_adbyby()){
-	ad_array = new Array("","Advanced_adbyby.asp");
-	tablink[14] = (ad_array);
-}
-if (found_app_smartdns()){
-	smartdns_array = new Array("","Advanced_smartdns.asp");
-	tablink[15] = (smartdns_array);
-}else if (found_app_adguardhome()){
-	adg_array = new Array("","Advanced_adguardhome.asp");
-	tablink[15] = (adg_array);
-}
-if (found_app_aliddns()){
-	aliddns_array = new Array("","Advanced_aliddns.asp");
-	tablink[16] = (aliddns_array);
-}else if (found_app_zerotier()){
+if (found_app_zerotier()){
 	zerotier_array = new Array("","Advanced_vpnkey.asp");
-	tablink[16] = (zerotier_array);
-}else if (found_app_ddnsto()){
-	ddnsto_array = new Array("","Advanced_ddnsto.asp");
-	tablink[16] = (ddnsto_array);
-}else if (found_app_wireguard()){
-	wireguard_array = new Array("","Advanced_wireguard.asp");
-	tablink[16] = (wireguard_array);
-}
-if (found_app_aldriver()){
-	aldriver_arry = new Array("","Advanced_aliyundrive.asp");
-	tablink[17] = (aldriver_arry);
+	tablink[14] = (zerotier_array);
 }
 if (found_app_hxcli()){
 	hxcli_array = new Array("","Advanced_hxzn.asp");
-	tablink[18] = (hxcli_array);
+	tablink[15] = (hxcli_array);
 }
 if (found_app_nelink()){
 	nelink_array = new Array("","Advanced_nelink.asp");
-	tablink[19] = (nelink_array);
+	tablink[16] = (nelink_array);
 }
 if (found_app_etink()){
 	etink_array = new Array("","Advanced_etink.asp");
-	tablink[20] = (etink_array);
+	tablink[17] = (etink_array);
 }
 
 //Level 2 Menu
-menuL2_title = new Array(20)
+menuL2_title = new Array(15)
 menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>");
 if (found_app_scutclient()){
 	menuL2_title.push("<#menu5_13#>");
@@ -516,24 +478,12 @@ if (found_app_mentohust()){
 	menuL2_title.push("mentohust");
 } else menuL2_title.push("");
 
-if (found_app_adbyby()){
-	menuL2_title.push("<#menu5_20#>");
-} else menuL2_title.push("");
-
-if (found_app_smartdns()||found_app_adguardhome()){
-	menuL2_title.push("<#menu5_29#>");
-} else menuL2_title.push("");
-
-if (found_app_aliddns()||found_app_zerotier()||found_app_ddnsto()||found_app_wireguard()){
-	menuL2_title.push("<#menu5_30#>");
-} else menuL2_title.push("");
-
-if (found_app_aldriver()){
-	menuL2_title.push("<#menu5_36#>");
+if (found_app_zerotier()){
+	menuL2_title.push("<#menu5_20_1#>");
 } else menuL2_title.push("");
 
 if (found_app_hxcli()){
-	menuL2_title.push("宏兴智能组网");
+	menuL2_title.push("<#menu5_20_2#>");
 } else menuL2_title.push("");
 
 if (found_app_nelink()){
@@ -561,28 +511,8 @@ if (found_app_mentohust()){
 	menuL2_link.push(mentohust_array[1]);
 } else menuL2_link.push("");
 
-if (found_app_adbyby()){
-	menuL2_link.push(ad_array[1]);
-}  else menuL2_link.push("");
-
-if (found_app_smartdns()){
-	menuL2_link.push(smartdns_array[1]);
-} else if (found_app_adguardhome()){
-	menuL2_link.push(adg_array[1]);
-} else menuL2_link.push("");
-
-if (found_app_aliddns()){
-	menuL2_link.push(aliddns_array[1]);
-} else if (found_app_zerotier()){
+if (found_app_zerotier()){
 	menuL2_link.push(zerotier_array[1]);
-} else if (found_app_ddnsto()){
-	menuL2_link.push(ddnsto_array[1]);
-} else if (found_app_wireguard()){
-	menuL2_link.push(wireguard_array[1]);
-} else menuL2_link.push("");
-
-if (found_app_aldriver()){
-	menuL2_link.push(aldriver_arry[1]);
 } else menuL2_link.push("");
 
 if (found_app_hxcli()){
@@ -598,20 +528,9 @@ if (found_app_etink()){
 } else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
-menuL1_title = new Array("", "<#menu1#>", "", "<#menu2#>", "<#menu6#>", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
-menuL1_link = new Array("", "index.asp", "", "vpnsrv.asp", "vpncli.asp", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
+menuL1_title = new Array("", "<#menu1#>", "", "", "", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
+menuL1_link = new Array("", "index.asp", "", "", "", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
 menuL1_icon = new Array("", "icon-home", "icon-hdd", "icon-retweet", "icon-globe", "icon-tasks", "icon-random", "icon-wrench");
-
-if (!found_app_vpnsvr()) {
-	menuL1_title[3] = '';
-	menuL1_link[3] = '';
-	menuL1_icon[3] = '';
-}
-if (!found_app_vpncli()) {
-	menuL1_title[4] = '';
-	menuL1_link[4] = '';
-	menuL1_icon[4] = '';
-}
 
 function show_menu(L1, L2, L3){
 	var i;
@@ -752,8 +671,9 @@ function show_footer(){
 	footer_code = '<div align="center" class="bottom-image"></div>\n';
 	footer_code +='<div align="center" class="copyright"><#footer_copyright_desc#></div>\n';
 	footer_code +='<div align="center">\n';
-	footer_code +='  <span>Developed by © <a href="https://bitbucket.org/padavan/rt-n56u/">Andy Padavan</a> &amp; <a href="https://github.com/hanwckf/padavan-4.4">hanwckf</a> &amp; <a href="https://github.com/MeIsReallyBa/padavan-4.4">MeIsReallyBa</a> &amp; <a href="https://github.com/tsl0922/padavan">tsl0922</a> &amp; <a href="https://github.com/TurBoTse/padavan">TurBoTse</a></span></br>\n';
-	footer_code +='  <span>Firmware distribution is prohibited , Non-Commercial Use Only</span></br>\n';
+	footer_code +='  <span>Highcharts by Torstein Hønsi & <a href="http://www.highcharts.com">Highsoft</a></span></br>\n';
+	footer_code +='  <span>Big icons designed by <a href="http://www.freepik.com">Freepik</a></br></span>\n';
+	footer_code +='  <span>Non-Commercial Use Only</span></br>\n';
 	footer_code +='</div>\n';
 
 	$("footer").innerHTML = footer_code;
@@ -834,14 +754,18 @@ function show_loading_obj(){
 function submit_language(){
 	if($("select_lang").value != $("preferred_lang").value){
 		showLoading();
+		
 		with(document.titleForm){
 			action = "/start_apply.htm";
+			
 			if(location.pathname == "/")
 				current_page.value = "/index.asp";
 			else
 				current_page.value = location.pathname;
+			
 			preferred_lang.value = $("select_lang").value;
 			flag.value = "set_language";
+			
 			submit();
 		}
 	}
@@ -854,7 +778,7 @@ function logout(){
 }
 
 function reboot(){
-	if(!confirm('<#JS_reboot#>'))
+	if(!confirm('<#Main_content_Login_Item7#>'))
 		return;
 	showLoading(board_boot_time());
 	var $j = jQuery.noConflict();
@@ -872,14 +796,6 @@ function shutdown(){
 	{
 		'action_mode': ' Shutdown ',
 		'current_page': 'Main_LogStatus_Content.asp'
-	});
-}
-
-function freememory(){
-	var $j = jQuery.noConflict();
-	$j.post('/apply.cgi',
-	{
-		'action_mode': ' FreeMemory ',
 	});
 }
 
@@ -1081,10 +997,10 @@ function validate_string(string_obj, flag){
 	if(string_obj.value.charAt(0) == '"'){
 		if(flag != "noalert")
 			alert('<#JS_validstr1#> ["]');
-
+		
 		string_obj.value = "";
 		string_obj.focus();
-
+		
 		return false;
 	}
 	else{
@@ -1125,7 +1041,7 @@ function validate_psk(psk_obj){
 		psk_obj.value = "00000000";
 		psk_obj.focus();
 		psk_obj.select();
-
+		
 		return false;
 	}
 	if(psk_length > 64){
@@ -1133,7 +1049,7 @@ function validate_psk(psk_obj){
 		psk_obj.value = psk_obj.value.substring(0, 64);
 		psk_obj.focus();
 		psk_obj.select();
-
+		
 		return false;
 	}
 	if(psk_length >= 8 && psk_length <= 63 && !validate_string(psk_obj)){
@@ -1159,9 +1075,10 @@ function checkDuplicateName(newname, targetArray){
 	var existing_string = targetArray.join(',');
 	existing_string = ","+existing_string+",";
 	var newstr = ","+trim(newname)+",";
+	
 	var re = new RegExp(newstr, "gi");
 	var matchArray = existing_string.match(re);
-
+	
 	if(matchArray != null)
 		return true;
 	else
